@@ -16,6 +16,9 @@
         .edit-inner__form-add(
           @click="addTodo"
         ) +
+        .edit-inner__form-additional-actions
+          button(@click="cancelChanges") Cancel Changes
+          button(@click="returnChanges") Return Changes
       .edit-inner__actions
         button(@click="cancel") Cancel
         button(@click="saveRecord") Save
@@ -36,31 +39,24 @@ export default {
     isEditing() {
       return this.itemIndex !== undefined;
     },
+    item() {
+      return this.notes[this.itemIndex];
+    },
   },
   data: () => ({
     formData: {
       name: '',
       todoList: [],
     },
+    canceledFormData: {},
   }),
   mounted() {
     if (this.isEditing) {
-      this.formData = JSON.parse(JSON.stringify(this.notes[this.itemIndex]));
+      this.formData = JSON.parse(JSON.stringify(this.item));
     }
   },
-  props: {
-    value: { type: Boolean, default: () => false },
-    item: { type: Object, default: () => null },
-  },
-  watch: {
-    item(to) {
-      if (to) {
-        this.formData = { ...{}, ...this.formData, ...to };
-      }
-    },
-  },
   methods: {
-    ...mapMutations(['addNote', 'updateNote', 'setCurrentItemIdx']),
+    ...mapMutations(['addNote', 'updateNote']),
     clearState() {
       this.formData = {};
     },
@@ -82,6 +78,14 @@ export default {
         text: '',
         done: false,
       });
+    },
+    cancelChanges() {
+      this.canceledFormData = JSON.parse(JSON.stringify(this.formData));
+      this.formData = JSON.parse(JSON.stringify(this.item));
+    },
+    returnChanges() {
+      this.formData = JSON.parse(JSON.stringify(this.canceledFormData));
+      this.canceledFormData = {};
     },
   },
 };

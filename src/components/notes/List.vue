@@ -13,14 +13,13 @@ export default {
   computed: {
     ...mapState({
       notes: (state) => state.notes.noteList,
-      currentItemIndex: (state) => state.notes.currentItemIndex,
     }),
   },
   data: () => ({
     showEdit: false,
   }),
   methods: {
-    ...mapMutations(['setNoteList', 'setCurrentItemIdx']),
+    ...mapMutations(['setNoteList']),
     openEdit(e, index) {
       this.$router.push({ name: 'edit', params: { index } });
     },

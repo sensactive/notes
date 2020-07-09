@@ -1,21 +1,20 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Main from '@/pages/Main.vue';
-import NoteList from '@/components/notes/List.vue';
 import Edit from '@/pages/Edit.vue';
+import Layout from '@/components/Layout.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'main',
-    component: Main,
+    component: Layout,
     children: [
       {
         path: '/',
-        name: 'noteList',
-        component: NoteList,
+        name: 'main',
+        component: Main,
       },
       {
         path: '/edit/:index',

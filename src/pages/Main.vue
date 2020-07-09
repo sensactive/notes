@@ -1,11 +1,14 @@
 <template lang="pug">
-  div
-    router-view
+  .main-page-sc
+    note-list
 </template>
 
 <script>
+import NoteList from '@/components/notes/List.vue';
+
 export default {
   name: 'Main',
+  components: { NoteList },
 };
 </script>
 
