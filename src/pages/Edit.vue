@@ -17,8 +17,14 @@
           @click="addTodo"
         ) +
         .edit-inner__form-additional-actions
-          button(@click="cancelChanges") Cancel Changes
-          button(@click="returnChanges") Return Changes
+          button(
+            v-if="changedData"
+            @click="cancelChanges"
+          ) Cancel Changes
+          button(
+            v-if="canceledChanges"
+            @click="returnChanges"
+          ) Return Changes
       .edit-inner__actions
         button(@click="cancel") Cancel
         button(@click="saveRecord") Save
@@ -42,6 +48,9 @@ export default {
     item() {
       return this.notes[this.itemIndex];
     },
+    canceledChanges() {
+      return Object.keys(this.canceledFormData).length && !this.changedData;
+    },
   },
   data: () => ({
     formData: {
@@ -49,11 +58,15 @@ export default {
       todoList: [],
     },
     canceledFormData: {},
+    changedData: false,
   }),
   mounted() {
     if (this.isEditing) {
       this.formData = JSON.parse(JSON.stringify(this.item));
     }
+    this.$el.addEventListener('input', () => {
+      if (!this.changedData) { this.changedData = true; }
+    });
   },
   methods: {
     ...mapMutations(['addNote', 'updateNote']),
@@ -82,11 +95,18 @@ export default {
     cancelChanges() {
       this.canceledFormData = JSON.parse(JSON.stringify(this.formData));
       this.formData = JSON.parse(JSON.stringify(this.item));
+      this.changedData = false;
     },
     returnChanges() {
       this.formData = JSON.parse(JSON.stringify(this.canceledFormData));
       this.canceledFormData = {};
+      this.changedData = true;
     },
+  },
+  beforeDestroy() {
+    this.$el.removeEventListener('input', () => {
+      if (!this.changedData) { this.changedData = true; }
+    });
   },
 };
 </script>
