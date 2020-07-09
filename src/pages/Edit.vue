@@ -1,13 +1,22 @@
 <template lang="pug">
-  .edit-dialog-sc
-    .edit-dialog-inner
-      .edit-dialog-inner__form
+  .edit-sc
+    .edit-inner
+      .edit-inner__form
         div {{ formData }}
         input(
           v-model="formData.name"
           placeholder="Insert Title"
         )
-      .edit-dialog-inner__actions
+        div(
+          v-for="(todo, index) in formData.todoList"
+          :key="index"
+        )
+          input(v-model="todo.text")
+          input(v-model="todo.done" type="checkbox")
+        .edit-inner__form-add(
+          @click="addTodo"
+        ) +
+      .edit-inner__actions
         button(@click="cancel") Cancel
         button(@click="saveRecord") Save
 </template>
@@ -29,7 +38,10 @@ export default {
     },
   },
   data: () => ({
-    formData: {},
+    formData: {
+      name: '',
+      todoList: [],
+    },
   }),
   mounted() {
     if (this.isEditing) {
@@ -65,12 +77,18 @@ export default {
         this.cancel();
       }
     },
+    addTodo() {
+      this.formData.todoList.push({
+        text: '',
+        done: false,
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss">
-  .edit-dialog {
+  .edit {
     &-sc {
       display: flex;
       position: fixed;
@@ -78,19 +96,27 @@ export default {
       right: 0;
       bottom: 0;
       left: 0;
-      background: rgba(0, 0, 0, .3);
     }
     &-inner {
       width: 30vw;
-      height: 40vw;
+      height: 30vw;
       background: white;
       margin: auto;
       padding: 3vw;
       box-sizing: border-box;
+      //border: 1px solid black;
       border-radius: 10px;
-      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
       display: grid;
       grid-template-rows: 5fr 1fr;
+      &__form {
+        &-add {
+          font-size: 3vw;
+          font-weight: 700;
+          color: green;
+          cursor: pointer;
+        }
+      }
       &__actions {
         align-self: flex-end;
         justify-self: flex-end;

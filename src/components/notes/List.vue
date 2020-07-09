@@ -15,10 +15,6 @@ export default {
       notes: (state) => state.notes.noteList,
       currentItemIndex: (state) => state.notes.currentItemIndex,
     }),
-    currentIndex: {
-      get() { return this.currentItemIndex; },
-      set(idx) { this.setCurrentItemIdx(idx); },
-    },
   },
   data: () => ({
     showEdit: false,
@@ -26,7 +22,6 @@ export default {
   methods: {
     ...mapMutations(['setNoteList', 'setCurrentItemIdx']),
     openEdit(e, index) {
-      this.currentIndex = index;
       this.$router.push({ name: 'edit', params: { index } });
     },
   },
