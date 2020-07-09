@@ -104,9 +104,8 @@ export default {
       margin: auto;
       padding: 3vw;
       box-sizing: border-box;
-      //border: 1px solid black;
       border-radius: 10px;
-      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
       display: grid;
       grid-template-rows: 5fr 1fr;
       &__form {
