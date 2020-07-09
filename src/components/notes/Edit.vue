@@ -36,15 +36,23 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['setNewNote', 'setCurrentItemIdx']),
-    cancel() {
+    ...mapMutations(['addNote', 'updateNote', 'setCurrentItemIdx']),
+    clearState() {
       this.setCurrentItemIdx('');
+      this.formData = {};
+    },
+    cancel() {
+      this.clearState();
       this.$emit('input', false);
     },
     saveRecord() {
-      this.setNewNote({ idx: this.currentItemIndex, item: this.formData });
-      console.log(this.currentItemIndex)
-      this.cancel();
+      if (this.currentItemIndex !== undefined) {
+        this.updateNote({ idx: this.currentItemIndex, item: this.formData });
+        this.cancel();
+      } else {
+        this.addNote(this.formData);
+        this.cancel();
+      }
     },
   },
 };

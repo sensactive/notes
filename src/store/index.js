@@ -5,9 +5,13 @@ import notes from './notes';
 
 Vue.use(Vuex);
 
+const notesState = createPersistedState({
+  paths: ['notes'],
+});
+
 export default new Vuex.Store({
   modules: {
     notes,
   },
-  plugins: [createPersistedState()],
+  plugins: [notesState],
 });
