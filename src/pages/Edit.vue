@@ -16,7 +16,7 @@
         .edit-inner__form-add(
           @click="addTodo"
         ) +
-        .edit-inner__form-additional-actions(v-if="itemIndex")
+        .edit-inner__form-additional-actions(v-if="isEditing")
           button(
             v-if="changedData"
             @click="cancelChanges"
