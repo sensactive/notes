@@ -16,7 +16,7 @@
         .edit-inner__form-add(
           @click="addTodo"
         ) +
-        .edit-inner__form-additional-actions
+        .edit-inner__form-additional-actions(v-if="itemIndex")
           button(
             v-if="changedData"
             @click="cancelChanges"
@@ -91,6 +91,7 @@ export default {
         text: '',
         done: false,
       });
+      this.changedData = true;
     },
     cancelChanges() {
       this.canceledFormData = JSON.parse(JSON.stringify(this.formData));
