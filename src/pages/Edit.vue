@@ -1,9 +1,12 @@
 <template lang="pug">
-  .edit-dialog-sc(v-if="value")
+  .edit-dialog-sc
     .edit-dialog-inner
       .edit-dialog-inner__form
         div {{ formData }}
-        input(v-model="formData.name")
+        input(
+          v-model="formData.name"
+          placeholder="Insert Title"
+        )
       .edit-dialog-inner__actions
         button(@click="cancel") Cancel
         button(@click="saveRecord") Save
@@ -16,13 +19,22 @@ export default {
   name: 'Edit',
   computed: {
     ...mapState({
-      currentItemIndex: (state) => state.notes.currentItemIndex,
+      notes: (state) => state.notes.noteList,
     }),
+    itemIndex() {
+      return this.$route.params.index;
+    },
+    isEditing() {
+      return this.itemIndex !== undefined;
+    },
   },
   data: () => ({
     formData: {},
   }),
-  created() {
+  mounted() {
+    if (this.isEditing) {
+      this.formData = JSON.parse(JSON.stringify(this.notes[this.itemIndex]));
+    }
   },
   props: {
     value: { type: Boolean, default: () => false },
@@ -38,16 +50,15 @@ export default {
   methods: {
     ...mapMutations(['addNote', 'updateNote', 'setCurrentItemIdx']),
     clearState() {
-      this.setCurrentItemIdx('');
       this.formData = {};
     },
     cancel() {
       this.clearState();
-      this.$emit('input', false);
+      this.$router.push('/');
     },
     saveRecord() {
-      if (this.currentItemIndex !== undefined) {
-        this.updateNote({ idx: this.currentItemIndex, item: this.formData });
+      if (this.isEditing) {
+        this.updateNote({ idx: this.itemIndex, item: this.formData });
         this.cancel();
       } else {
         this.addNote(this.formData);
