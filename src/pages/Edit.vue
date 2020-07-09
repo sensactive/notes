@@ -13,7 +13,10 @@
         )
           input(v-model="todo.text")
           input(v-model="todo.done" type="checkbox")
-        .edit-inner__form-add(
+          span.edit-inner__form-remove(
+            @click="removeTodo(index)"
+          ) +
+        span.edit-inner__form-add(
           @click="addTodo"
         ) +
         .edit-inner__form-additional-actions(v-if="isEditing")
@@ -93,6 +96,10 @@ export default {
       });
       this.changedData = true;
     },
+    removeTodo(index) {
+      this.formData.todoList.splice(index, 1);
+      this.changedData = true;
+    },
     cancelChanges() {
       this.canceledFormData = JSON.parse(JSON.stringify(this.formData));
       this.formData = JSON.parse(JSON.stringify(this.item));
@@ -135,10 +142,18 @@ export default {
       grid-template-rows: 5fr 1fr;
       &__form {
         &-add {
-          font-size: 3vw;
+          font-size: 2vw;
           font-weight: 700;
           color: green;
           cursor: pointer;
+        }
+        &-remove {
+          font-size: 2vw;
+          font-weight: 700;
+          color: red;
+          cursor: pointer;
+          transform: rotate(45deg);
+          position: absolute;
         }
       }
       &__actions {
