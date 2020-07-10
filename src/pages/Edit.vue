@@ -2,25 +2,27 @@
   .edit-sc
     .edit-inner
       .edit-inner__form
-        div {{ formData }}
-        input(
+        input.edit-inner__form-title(
           v-model="formData.name"
           placeholder="Insert Title"
         )
-        div(
+        .todo-item.ml-4(
           v-for="(todo, index) in formData.todoList"
           :key="index"
         )
+          .mr-2.index {{ index + 1 }}
           input(v-model="todo.text")
-          input(v-model="todo.done" type="checkbox")
-          span.edit-inner__form-remove(
-            @click="removeTodo(index)"
-          ) +
-        span.edit-inner__form-add(
+          input.mr-2(v-model="todo.done" type="checkbox")
+          .remove-sc.d-flex
+            .edit-inner__form-remove(
+              @click="removeTodo(index)"
+            ) +
+        .edit-inner__form-add(
           @click="addTodo"
         ) +
-        .edit-inner__form-additional-actions(v-if="isEditing")
-          button(
+      .edit-inner__actions
+        .edit-inner__form-additional-actions.mr-1(v-if="isEditing")
+          button.mt-1(
             v-if="changedData"
             @click="cancelChanges"
           ) Cancel Changes
@@ -28,8 +30,7 @@
             v-if="canceledChanges"
             @click="returnChanges"
           ) Return Changes
-      .edit-inner__actions
-        button(@click="cancel") Cancel
+        button.mr-1(@click="cancel") Cancel
         button(@click="saveRecord") Save
 </template>
 
@@ -135,33 +136,62 @@ export default {
       background: white;
       margin: auto;
       padding: 3vw;
-      box-sizing: border-box;
       border-radius: 10px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
       display: grid;
       grid-template-rows: 5fr 1fr;
       &__form {
+        &-title {
+          height: 5vh!important;
+          font-size: 3vh;
+          text-align: center;
+          font-weight: 700;
+        }
+        .todo-item {
+          display: grid;
+          grid-template-columns: 2vw 3fr 2vw 2vw;
+          border-bottom: 1px solid gray;
+          * {
+            align-self: center;
+          }
+          .index {
+            display: inline-flex;
+            border: 1px solid gray;
+            border-radius: 50%;
+            width: 1.5vw;
+            height: 1.5vw;
+            align-items: center;
+            justify-content: center;
+          }
+          .remove-sc {
+            position: relative;
+            height: 100%;
+          }
+        }
         &-add {
           font-size: 2vw;
           font-weight: 700;
           color: green;
           cursor: pointer;
+          display: inline-block;
+          user-select: none;
         }
         &-remove {
+          user-select: none;
           font-size: 2vw;
           font-weight: 700;
           color: red;
           cursor: pointer;
           transform: rotate(45deg);
           position: absolute;
+          right: 0;
+          max-height: 2vw;
         }
       }
       &__actions {
-        align-self: flex-end;
+        display: flex;
+        align-self: center;
         justify-self: flex-end;
-        button {
-          margin: .3vw;
-        }
       }
     }
   }
