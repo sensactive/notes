@@ -1,5 +1,5 @@
 .layout-sc {
-  input, textarea {
+  input:not([type='checkbox']), textarea {
     border-radius: 5px;
     outline: none;
     padding: .3vw;

@@ -1,28 +1,31 @@
 <template lang="pug">
   .edit-sc
     .edit-inner
-      .edit-inner__form
+      .edit-inner__form.w-100
         input.edit-inner__form-title(
           v-model="formData.name"
           placeholder="Insert Title"
         )
-        .todo-item.ml-4(
-          v-for="(todo, index) in formData.todoList"
-          :key="index"
-        )
-          .mr-2.index {{ index + 1 }}
-          input(v-model="todo.text")
-          input.mr-2(v-model="todo.done" type="checkbox")
-          .remove-sc.d-flex
-            .edit-inner__form-remove(
-              @click="removeTodo(index)"
-            ) +
-        .edit-inner__form-add(
-          @click="addTodo"
-        ) +
+        transition-group(name="todo").todo
+          .todo-item.ml-4(
+            v-for="(todo, index) in formData.todoList"
+            :key="index"
+          )
+            .mr-2.index {{ index + 1 }}
+            input(v-model="todo.text")
+            input.mr-2(v-model="todo.done" type="checkbox")
+            .remove-sc.d-flex
+              .edit-inner__form-remove(
+                @click="removeTodo(index)"
+              ) +
+        .edit-inner__form-add
+          span Add Todo
+          span.mx-3.btn(
+            @click="addTodo"
+          ) +
       .edit-inner__actions
         .edit-inner__form-additional-actions.mr-1(v-if="isEditing")
-          button.mt-1(
+          button(
             v-if="changedData"
             @click="cancelChanges"
           ) Cancel Changes
@@ -131,8 +134,7 @@ export default {
       left: 0;
     }
     &-inner {
-      width: 30vw;
-      height: 30vw;
+      min-width: 30vw;
       background: white;
       margin: auto;
       padding: 3vw;
@@ -141,40 +143,62 @@ export default {
       display: grid;
       grid-template-rows: 5fr 1fr;
       &__form {
+        display: grid;
+        grid-template-rows: 7vh auto 7vh;
         &-title {
+          width: 100%;
           height: 5vh!important;
           font-size: 3vh;
           text-align: center;
           font-weight: 700;
         }
-        .todo-item {
-          display: grid;
-          grid-template-columns: 2vw 3fr 2vw 2vw;
-          border-bottom: 1px solid gray;
-          * {
-            align-self: center;
+        .todo {
+          min-height: 20vw;
+          max-height: 20vw;
+          overflow-y: auto;
+          &-enter-active, &-leave-active {
+            transition: all 1s;
           }
-          .index {
-            display: inline-flex;
-            border: 1px solid gray;
-            border-radius: 50%;
-            width: 1.5vw;
-            height: 1.5vw;
-            align-items: center;
-            justify-content: center;
+          &-enter, &-leave-to {
+            opacity: 0;
+            transform: translateX(30px);
           }
-          .remove-sc {
-            position: relative;
-            height: 100%;
+          &-item {
+            display: grid;
+            grid-template-columns: 2vw 3fr 2vw 2vw;
+            border-bottom: 1px solid gray;
+            * {
+              align-self: center;
+            }
+            .index {
+              display: inline-flex;
+              border: 1px solid gray;
+              border-radius: 50%;
+              width: 1.5vw;
+              height: 1.5vw;
+              align-items: center;
+              justify-content: center;
+            }
+            .remove-sc {
+              position: relative;
+              height: 100%;
+            }
           }
         }
         &-add {
-          font-size: 2vw;
-          font-weight: 700;
-          color: green;
-          cursor: pointer;
-          display: inline-block;
-          user-select: none;
+          justify-self: right;
+          span {
+            font-size: 1.2vw;
+            font-weight: 700;
+            opacity: .6;
+          }
+          .btn {
+            opacity: 1;
+            font-size: 2vw;
+            color: green;
+            cursor: pointer;
+            user-select: none;
+          };
         }
         &-remove {
           user-select: none;
