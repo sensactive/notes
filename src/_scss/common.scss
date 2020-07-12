@@ -1,5 +1,39 @@
 body {
   background: url("/images/background/background1.png");
+  height: 100vh;
+  margin: 0;
+}
+
+.screen-horizontal {
+  .p {
+    &xs { font-size: .5vw!important; }
+    &sm { font-size: .7vw!important; }
+    &md { font-size: .9vw!important; }
+    &lg { font-size: 1.1vw!important; }
+  }
+  .h {
+    &4 { font-size: .5vw!important; font-weight: 700; }
+    &3 { font-size: .7vw!important; font-weight: 700; }
+    &2 { font-size: .9vw!important; font-weight: 700; }
+    &1 { font-size: 1.1vw!important; font-weight: 700; }
+    &0 { font-size: 1.6vw!important; font-weight: 700; }
+  }
+}
+
+.screen-vertical {
+  .p {
+    &xs { font-size: 1.5vh!important; }
+    &sm { font-size: 1.8vh!important; }
+    &md { font-size: 2.1vh!important; }
+    &lg { font-size: 2.4vh!important; }
+  }
+  .h {
+    &4 { font-size: 1.5vh!important; font-weight: 700; }
+    &3 { font-size: 1.8vh!important; font-weight: 700; }
+    &2 { font-size: 2.1vh!important; font-weight: 700; }
+    &1 { font-size: 2.4vh!important; font-weight: 700; }
+    &0 { font-size: 3vh!important; font-weight: 700; }
+  }
 }
 
 .layout-sc {

@@ -1,5 +1,6 @@
 <template lang="pug">
   .main-page-sc
+    div
     note-list
 </template>
 
@@ -12,6 +13,9 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style lang="scss">
+  .main-page-sc {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
 </style>

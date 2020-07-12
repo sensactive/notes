@@ -1,8 +1,12 @@
 <template lang="pug">
-  div
-    button(@click="openEdit") Create
-    div(v-for="(note, index) in notes" :key="index") {{ note }}
-      button(@click="openEdit($event, index)") Edit
+  .note-list-sc
+    button(@click="openEdit") Add New Note
+    .note-list
+      .note-list__item(v-for="(note, index) in notes" :key="index")
+        .note-list__item-title.h1 {{ note.name }}
+          button(@click="openEdit($event, index)") Edit
+        .note-list__item-todos
+          .note-todo(v-for="(todo, index) in note.todoList") {{ todo.text }}
 </template>
 
 <script>
@@ -27,6 +31,17 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style lang="scss">
+  .note-list-sc {
+    display: grid;
+    grid-template-rows: 10vh 1fr;
+    .note-list {
+      display: grid;
+      &__item {
+        display: grid;
+        &-title {
+        }
+      }
+    }
+  }
 </style>
