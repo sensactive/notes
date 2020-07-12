@@ -2,7 +2,8 @@
   .note-list-sc.m-3.p-2
     .note-list.py-2(v-if="notes.length")
       .note-list__item.mx-3(v-for="(note, index) in notes" :key="index")
-        .note-list__item-title.h0.uc {{ note.name }}
+        .note-list__item-title.h0.uc
+          span {{ note.name }}
           .my-btn(@click="openEdit($event, index)") edit
           confirm-dialog(@click="deleteItem($event, index)")
             template(v-slot:activator)
@@ -57,6 +58,8 @@ export default {
       max-height: 80vh;
       overflow-y: scroll;
       &__item {
+        position: relative;
+        border-bottom: 1px solid lightgray;
         &-todos {
           .note-todo {
             word-break: break-all;
@@ -66,6 +69,10 @@ export default {
           display: grid;
           grid-template-columns: 1fr 10vw 10vw;
           grid-column-gap: 1vw;
+          span {
+            margin-top: auto;
+            margin-bottom: auto;
+          }
         }
       }
     }

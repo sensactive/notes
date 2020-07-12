@@ -28,7 +28,7 @@
             @click="addTodo"
           ) +
       .edit-inner__actions
-        confirm-dialog.delete(@click="deleteItem")
+        confirm-dialog.delete(@click="deleteItem" v-if="isEditing")
           template(#activator)
             .my-btn.bg-red delete
         .edit-inner__form-additional-actions(v-if="isEditing")
