@@ -6,10 +6,10 @@
           v-model="formData.name"
           placeholder="Insert a Note Title"
         )
-        transition-group(name="todo").todo
+        .todo
           .todo-item.ml-4(
             v-for="(todo, idx) in formData.todoList"
-            :key="todo"
+            :key="idx"
           )
             .index {{ idx + 1 }}
             input(v-model="todo.text")
@@ -71,6 +71,7 @@ export default {
     if (this.isEditing) {
       this.formData = JSON.parse(JSON.stringify(this.item));
     }
+    // отслеживание изменений данных формы
     this.$el.addEventListener('input', () => {
       if (!this.changedData) { this.changedData = true; }
     });
@@ -93,14 +94,19 @@ export default {
         this.cancel();
       }
     },
-    addTodo() {
-      this.formData.todoList.push({
-        text: '',
-        done: false,
-      });
+    async addTodo() {
       this.changedData = true;
-      console.dir(document.querySelector('.todo'));
       const todoEl = document.querySelector('.todo');
+      // создаем промис для добавления элемента в список todos
+      const addedNewTodo = new Promise((resolve) => {
+        this.formData.todoList.push({
+          text: '',
+          done: false,
+        });
+        resolve();
+      });
+      await addedNewTodo;
+      // скролл вниз
       todoEl.scrollTo(0, todoEl.scrollHeight);
     },
     removeTodo(index) {
@@ -127,6 +133,7 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "@/_scss/animations.scss";
   .edit {
     &-sc {
       display: flex;
@@ -159,19 +166,11 @@ export default {
           min-height: 20vw;
           max-height: 20vw;
           overflow-y: auto;
-          &-enter {
-            opacity: 0;
-            transform: scale(.3, .3);
-          }
-          &-leave-to {
-            opacity: 0;
-            transform: translateX(-100px);
-          }
           &-item {
             display: grid;
             grid-template-columns: 2vw 3fr 2vw 2vw;
             border-bottom: 1px solid gray;
-            transition: all 1s;
+            animation: 1s fade-in;
             * {
               align-self: center;
             }
