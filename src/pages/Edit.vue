@@ -4,19 +4,19 @@
       .edit-inner__form.w-100
         input.edit-inner__form-title(
           v-model="formData.name"
-          placeholder="Insert Title"
+          placeholder="Insert a Note Title"
         )
         transition-group(name="todo").todo
           .todo-item.ml-4(
-            v-for="(todo, index) in formData.todoList"
-            :key="index"
+            v-for="(todo, idx) in formData.todoList"
+            :key="todo"
           )
-            .mr-2.index {{ index + 1 }}
+            .index {{ idx + 1 }}
             input(v-model="todo.text")
             input.mr-2(v-model="todo.done" type="checkbox")
-            .remove-sc.d-flex
+            .remove-sc
               .edit-inner__form-remove(
-                @click="removeTodo(index)"
+                @click="removeTodo(idx)"
               ) +
         .edit-inner__form-add
           span Add Todo
@@ -24,7 +24,7 @@
             @click="addTodo"
           ) +
       .edit-inner__actions
-        .edit-inner__form-additional-actions.mr-1(v-if="isEditing")
+        .edit-inner__form-additional-actions(v-if="isEditing")
           button(
             v-if="changedData"
             @click="cancelChanges"
@@ -33,7 +33,7 @@
             v-if="canceledChanges"
             @click="returnChanges"
           ) Return Changes
-        button.mr-1(@click="cancel") Cancel
+        button(@click="cancel") Cancel
         button(@click="saveRecord") Save
 </template>
 
@@ -99,6 +99,9 @@ export default {
         done: false,
       });
       this.changedData = true;
+      console.dir(document.querySelector('.todo'));
+      const todoEl = document.querySelector('.todo');
+      todoEl.scrollTo(0, todoEl.scrollHeight);
     },
     removeTodo(index) {
       this.formData.todoList.splice(index, 1);
@@ -156,17 +159,19 @@ export default {
           min-height: 20vw;
           max-height: 20vw;
           overflow-y: auto;
-          &-enter-active, &-leave-active {
-            transition: all 1s;
-          }
-          &-enter, &-leave-to {
+          &-enter {
             opacity: 0;
-            transform: translateX(30px);
+            transform: scale(.3, .3);
+          }
+          &-leave-to {
+            opacity: 0;
+            transform: translateX(-100px);
           }
           &-item {
             display: grid;
             grid-template-columns: 2vw 3fr 2vw 2vw;
             border-bottom: 1px solid gray;
+            transition: all 1s;
             * {
               align-self: center;
             }
@@ -181,7 +186,7 @@ export default {
             }
             .remove-sc {
               position: relative;
-              height: 100%;
+              display: grid;
             }
           }
         }
@@ -208,12 +213,12 @@ export default {
           cursor: pointer;
           transform: rotate(45deg);
           position: absolute;
-          right: 0;
-          max-height: 2vw;
         }
       }
       &__actions {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: .5vw;
         align-self: center;
         justify-self: flex-end;
       }
