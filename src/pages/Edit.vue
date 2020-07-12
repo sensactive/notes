@@ -1,10 +1,11 @@
 <template lang="pug">
   .edit-sc
-    .edit-inner
+    form.edit-inner(@submit.prevent="saveRecord")
       .edit-inner__form.w-100
         input.edit-inner__form-title(
           v-model="formData.name"
           placeholder="Insert a Note Title"
+          required
         )
         .todo
           .todo-item.ml-4(
@@ -12,7 +13,7 @@
             :key="idx"
           )
             .index {{ idx + 1 }}
-            input(v-model="todo.text")
+            input(v-model="todo.text" required)
             input.mr-2(v-model="todo.done" type="checkbox")
             .remove-sc
               .edit-inner__form-remove(
@@ -34,7 +35,7 @@
             @click="returnChanges"
           ) Return Changes
         button(@click="cancel") Cancel
-        button(@click="saveRecord") Save
+        button(type="submit") Save
 </template>
 
 <script>
