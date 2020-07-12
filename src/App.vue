@@ -15,6 +15,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setScreenOrientation']),
+    // детектор соотношений экрана для адаптива
     onResize() {
       const el = document.body;
       const ar = window.innerWidth / window.innerHeight;
@@ -30,7 +31,6 @@ export default {
     },
   },
   mounted() {
-    // Check layout variant
     this.onResize();
     window.addEventListener('resize', this.onResize);
   },
