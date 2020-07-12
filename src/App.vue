@@ -5,9 +5,11 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex';
+import ConfirmDialog from './components/common/ConfirmDialog.vue';
 
 export default {
   name: 'App',
+  components: { ConfirmDialog },
   computed: {
     ...mapGetters(['getScreenOrientation']),
   },

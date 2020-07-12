@@ -1,4 +1,5 @@
 @import "palette";
+@import "constants";
 
 body {
   background: url("/images/background/background1.png");
@@ -7,7 +8,9 @@ body {
   padding: .5vw;
   box-sizing: border-box;
 }
-
+.round {
+  border-radius: $border-radius;
+}
 .w {
   &-25 { width: 25%; }
   &-50 { width: 50%; }
@@ -24,6 +27,9 @@ body {
   &-center { text-align: center; }
   &-left { text-align:  left; }
   &-right { text-align: right; }
+}
+.elevation {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .screen-horizontal {
@@ -85,13 +91,17 @@ body {
       box-shadow: inset 0 0 5px gray;
     }
   }
-  button {
+  .my-btn {
+    @extend .h-100, .pmd, .px-1;
+    display: flex;
     background: $purple-blue;
     border: none;
     border-radius: 5px;
     text-transform: uppercase;
-    min-height: 3vh;
+    min-height: 4vh;
     min-width: 7vw;
+    justify-content: center;
+    align-items: center;
     color: white;
     font-weight: 600;
     cursor: pointer;

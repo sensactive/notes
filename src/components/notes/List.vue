@@ -3,21 +3,26 @@
     .note-list.py-2(v-if="notes.length")
       .note-list__item.mx-3(v-for="(note, index) in notes" :key="index")
         .note-list__item-title.h0.uc {{ note.name }}
-          button(@click="openEdit($event, index)") Edit
+          .my-btn(@click="openEdit($event, index)") edit
+          confirm-dialog(@click="deleteNote($event, index)")
+            template(v-slot:activator)
+              .my-btn.bg-red delete
         .note-list__item-todos
           li.note-todo.ml-5(v-for="(todo, index) in note.todoList.slice(0, 3)")
            | {{ todo.text }}
           a.ml-5(href="" @click.prevent="openEdit($event, index)" v-if="note.todoList.length > 3" )
            | more...
     .d-flex.a-i-c.j-c-c.pelg(v-else) Empty...
-    button.bg-green.mt-1(@click="openEdit") Add New Note
+    .my-btn.bg-green.mt-1(@click="openEdit") Add New Note
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import ConfirmDialog from '../common/ConfirmDialog.vue';
 
 export default {
   name: 'List',
+  components: { ConfirmDialog },
   computed: {
     ...mapState({
       notes: (state) => state.notes.noteList,
@@ -27,9 +32,12 @@ export default {
     showEdit: false,
   }),
   methods: {
-    ...mapMutations(['setNoteList']),
+    ...mapMutations(['deleteNote']),
     openEdit(e, index) {
       this.$router.push({ name: 'edit', params: { index } });
+    },
+    deleteNote(e, index) {
+      this.deleteNote(index);
     },
   },
 };
@@ -40,7 +48,7 @@ export default {
     display: grid;
     grid-template-rows: 1fr 10vh;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(2, 2, 2, 0.5);
     background: white;
     .note-list {
       display: grid;
@@ -55,7 +63,8 @@ export default {
         }
         &-title {
           display: grid;
-          grid-template-columns: 1fr 10vw;
+          grid-template-columns: 1fr 10vw 10vw;
+          grid-column-gap: 1vw;
         }
       }
     }

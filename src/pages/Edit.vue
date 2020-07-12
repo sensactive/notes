@@ -1,6 +1,9 @@
 <template lang="pug">
   .edit-sc
-    form.edit-inner(@keydown.enter.prevent="saveRecord" @submit.prevent="saveRecord")
+    form.edit-inner.elevation.round(
+      @keyup.enter.prevent="saveRecord"
+      @submit.prevent="saveRecord"
+    )
       .edit-inner__form.w-100
         input.edit-inner__form-title(
           v-model="formData.name"
@@ -25,24 +28,35 @@
             @click="addTodo"
           ) +
       .edit-inner__actions
+        confirm-dialog.delete(@click="deleteItem")
+          template(#activator)
+            .my-btn.bg-red delete
         .edit-inner__form-additional-actions(v-if="isEditing")
-          button(
+          .my-btn.bg-yellow(
             v-if="changedData"
             @click="cancelChanges"
           ) Cancel Changes
-          button(
+          .my-btn.bg-yellow(
             v-if="canceledChanges"
             @click="returnChanges"
           ) Return Changes
-        button(@click="cancel") Cancel
-        button(type="submit") Save
+        confirm-dialog.cancel(
+          title="Canceling"
+          question="Are you sure you want to cancel editing?"
+          @click="cancel"
+        )
+          template(#activator)
+            .my-btn Cancel
+        button.my-btn.save(type="submit") Save
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import ConfirmDialog from '../components/common/ConfirmDialog.vue';
 
 export default {
   name: 'Edit',
+  components: { ConfirmDialog },
   computed: {
     ...mapState({
       notes: (state) => state.notes.noteList,
@@ -78,9 +92,13 @@ export default {
     });
   },
   methods: {
-    ...mapMutations(['addNote', 'updateNote']),
+    ...mapMutations(['addNote', 'updateNote', 'deleteNote']),
     clearState() {
       this.formData = {};
+    },
+    deleteItem() {
+      this.deleteNote(this.itemIndex);
+      this.$router.push('/');
     },
     cancel() {
       this.clearState();
@@ -149,13 +167,15 @@ export default {
       background: white;
       margin: auto;
       padding: 3vw;
-      border-radius: 10px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      border-radius: 5px;
       display: grid;
       grid-template-rows: 5fr 1fr;
       &__form {
         display: grid;
         grid-template-rows: 7vh auto 7vh;
+        &-additional-actions {
+          grid-area: 1 / 1;
+        }
         &-title {
           width: 100%;
           height: 5vh!important;
@@ -216,11 +236,15 @@ export default {
         }
       }
       &__actions {
+        width: 100%;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-gap: .5vw;
         align-self: center;
         justify-self: flex-end;
+        .delete { grid-area: 1 / 1 }
+        .cancel { grid-area: 1 / 3 }
+        .save { grid-area: 1 / 4  }
       }
     }
   }
