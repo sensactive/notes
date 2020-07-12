@@ -1,5 +1,5 @@
 <template lang="pug">
-  .layout-sc
+  .layout-sc.h-100
     router-view
 </template>
 

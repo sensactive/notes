@@ -1,6 +1,6 @@
 <template lang="pug">
-  .main-page-sc
-    div
+  .main-page-sc.h-100
+    .title.p-2 My Notes
     note-list
 </template>
 
@@ -14,8 +14,14 @@ export default {
 </script>
 
 <style lang="scss">
-  .main-page-sc {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+  .screen-horizontal {
+    .main-page-sc {
+      display: grid;
+      grid-template-columns: 1fr 2.5fr;
+      .title {
+        font-size: 5vw;
+        font-weight: 700;
+      }
+    }
   }
 </style>

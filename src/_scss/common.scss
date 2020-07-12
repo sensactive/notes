@@ -1,7 +1,24 @@
+@import "palette";
+
 body {
   background: url("/images/background/background1.png");
   height: 100vh;
   margin: 0;
+  padding: .5vw;
+  box-sizing: border-box;
+}
+
+.w {
+  &-25 { width: 25%; }
+  &-50 { width: 50%; }
+  &-75 { width: 75%; }
+  &-100 { width: 100%; }
+}
+.h {
+  &-25 { height: 25%; }
+  &-50 { height: 50%; }
+  &-75 { height: 75%; }
+  &-100 { height: 100%; }
 }
 
 .screen-horizontal {
@@ -37,6 +54,8 @@ body {
 }
 
 .layout-sc {
+  .uc { text-transform: uppercase!important; }
+  .lc { text-transform: lowercase!important; }
   input:not([type='checkbox']), textarea {
     border-radius: 5px;
     outline: none;
@@ -61,7 +80,7 @@ body {
     }
   }
   button {
-    background: rgb(40, 83, 170);
+    background: $purple-blue;
     border: none;
     border-radius: 5px;
     text-transform: uppercase;
@@ -93,17 +112,5 @@ body {
     &-s { align-items: flex-start; }
     &-c { align-items: center; }
     &-e { align-items: flex-end; }
-  }
-  .w {
-    &-25 { width: 25%; }
-    &-50 { width: 50%; }
-    &-75 { width: 75%; }
-    &-100 { width: 100%; }
-  }
-  .h {
-    &-25 { height: 25%; }
-    &-50 { height: 50%; }
-    &-75 { height: 75%; }
-    &-100 { height: 100%; }
   }
 }

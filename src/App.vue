@@ -1,5 +1,5 @@
 <template lang="pug">
-  #app
+  #app.h-100.black
     router-view
 </template>
 
