@@ -4,7 +4,7 @@
       .note-list__item.mx-3(v-for="(note, index) in notes" :key="index")
         .note-list__item-title.h0.uc {{ note.name }}
           .my-btn(@click="openEdit($event, index)") edit
-          confirm-dialog(@click="deleteNote($event, index)")
+          confirm-dialog(@click="deleteItem($event, index)")
             template(v-slot:activator)
               .my-btn.bg-red delete
         .note-list__item-todos
@@ -13,12 +13,13 @@
           a.ml-5(href="" @click.prevent="openEdit($event, index)" v-if="note.todoList.length > 3" )
            | more...
     .d-flex.a-i-c.j-c-c.pelg(v-else) Empty...
-    .my-btn.bg-green.mt-1(@click="openEdit") Add New Note
+    .my-btn.bg-green.mt-1(@click="openEdit")
+      span.h0 Add New Note
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import ConfirmDialog from '../common/ConfirmDialog.vue';
+import ConfirmDialog from '@/components/common/ConfirmDialog.vue';
 
 export default {
   name: 'List',
@@ -36,7 +37,7 @@ export default {
     openEdit(e, index) {
       this.$router.push({ name: 'edit', params: { index } });
     },
-    deleteNote(e, index) {
+    deleteItem(e, index) {
       this.deleteNote(index);
     },
   },

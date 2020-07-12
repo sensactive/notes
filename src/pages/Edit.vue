@@ -52,7 +52,7 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
-import ConfirmDialog from '../components/common/ConfirmDialog.vue';
+import ConfirmDialog from '@/components/common/ConfirmDialog.vue';
 
 export default {
   name: 'Edit',
@@ -174,7 +174,7 @@ export default {
         display: grid;
         grid-template-rows: 7vh auto 7vh;
         &-additional-actions {
-          grid-area: 1 / 1;
+          grid-area: 1 / 2;
         }
         &-title {
           width: 100%;
