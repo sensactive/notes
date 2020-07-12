@@ -1,6 +1,6 @@
 <template lang="pug">
   .edit-sc
-    form.edit-inner(@submit.prevent="saveRecord")
+    form.edit-inner(@keydown.enter.prevent="saveRecord" @submit.prevent="saveRecord")
       .edit-inner__form.w-100
         input.edit-inner__form-title(
           v-model="formData.name"

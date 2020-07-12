@@ -20,6 +20,11 @@ body {
   &-75 { height: 75%; }
   &-100 { height: 100%; }
 }
+.text {
+  &-center { text-align: center; }
+  &-left { text-align:  left; }
+  &-right { text-align: right; }
+}
 
 .screen-horizontal {
   .p {
@@ -27,6 +32,7 @@ body {
     &sm { font-size: .7vw!important; }
     &md { font-size: .9vw!important; }
     &lg { font-size: 1.1vw!important; }
+    &elg { font-size: 1.3vw!important; }
   }
   .h {
     &4 { font-size: .5vw!important; font-weight: 700; }

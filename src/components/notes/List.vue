@@ -1,11 +1,15 @@
 <template lang="pug">
   .note-list-sc.m-3.p-2
-    .note-list
-      .note-list__item(v-for="(note, index) in notes" :key="index")
+    .note-list.py-2(v-if="notes.length")
+      .note-list__item.mx-3(v-for="(note, index) in notes" :key="index")
         .note-list__item-title.h0.uc {{ note.name }}
           button(@click="openEdit($event, index)") Edit
         .note-list__item-todos
-          .note-todo(v-for="(todo, index) in note.todoList") {{ todo.text }}
+          li.note-todo.ml-5(v-for="(todo, index) in note.todoList.slice(0, 3)")
+           | {{ todo.text }}
+          a.ml-5(href="" @click.prevent="openEdit($event, index)" v-if="note.todoList.length > 3" )
+           | more...
+    .d-flex.a-i-c.j-c-c.pelg(v-else) Empty...
     button.bg-green.mt-1(@click="openEdit") Add New Note
 </template>
 
@@ -40,9 +44,18 @@ export default {
     background: white;
     .note-list {
       display: grid;
+      grid-row-gap: 1vh;
+      max-height: 80vh;
+      overflow-y: scroll;
       &__item {
-        display: grid;
+        &-todos {
+          .note-todo {
+            word-break: break-all;
+          }
+        }
         &-title {
+          display: grid;
+          grid-template-columns: 1fr 10vw;
         }
       }
     }
