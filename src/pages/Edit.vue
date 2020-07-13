@@ -11,9 +11,10 @@
           required
         )
         .todo
-          .todo-item.ml-4(
+          .todo-item(
             v-for="(todo, idx) in formData.todoList"
             :key="idx"
+            :class="getScreenOrientation === 1 ? 'ml-4' : 'mx-2'"
           )
             .index {{ idx + 1 }}
             input(v-model="todo.text" required)
@@ -51,7 +52,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapGetters } from 'vuex';
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue';
 
 export default {
@@ -61,6 +62,7 @@ export default {
     ...mapState({
       notes: (state) => state.notes.noteList,
     }),
+    ...mapGetters(['getScreenOrientation']),
     itemIndex() {
       return this.$route.params.index;
     },
@@ -163,6 +165,7 @@ export default {
       left: 0;
     }
     &-inner {
+      height: 80vh;
       min-width: 30vw;
       background: white;
       margin: auto;
@@ -174,7 +177,7 @@ export default {
         display: grid;
         grid-template-rows: 7vh auto 7vh;
         &-additional-actions {
-          grid-area: 1 / 2;
+          grid-area: 1 / 1 / 1 / 3;
         }
         &-title {
           width: 100%;
@@ -184,8 +187,8 @@ export default {
           font-weight: 700;
         }
         .todo {
-          min-height: 20vw;
-          max-height: 20vw;
+          min-height: 60vh;
+          max-height: 60vh;
           overflow-y: auto;
           &-item {
             display: grid;
@@ -207,6 +210,7 @@ export default {
             .remove-sc {
               position: relative;
               display: grid;
+              user-select: none;
             }
           }
         }
@@ -238,13 +242,59 @@ export default {
       &__actions {
         width: 100%;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-row-gap: 1vh;
         grid-gap: .5vw;
         align-self: center;
         justify-self: flex-end;
-        .delete { grid-area: 1 / 1 }
-        .cancel { grid-area: 1 / 3 }
-        .save { grid-area: 1 / 4  }
+        .delete { grid-area: 2 / 1 }
+        .cancel { grid-area: 2 / 2 }
+        .save { grid-area: 2 / 3  }
+      }
+    }
+  }
+
+  .screen-vertical {
+    .edit {
+      &-inner {
+        height: 80vh;
+        &__form {
+          .todo {
+            min-height: 50vh;
+            max-height: 50vh;
+            &-item {
+              grid-template-columns: 3vh 3fr 3vh 5vh;
+              .index {
+                width: 2vh;
+                height: 2vh;
+              }
+            }
+          }
+          &-add {
+            span {
+              font-size: 2.2vh;
+            }
+            .btn {
+              font-size: 3vh;
+            };
+          }
+          &-remove {
+            font-size: 4vh;
+            justify-self: center;
+          }
+          &-additional-actions {
+            grid-area: 1 / 1 / 1 / 3;
+          }
+        }
+        &__actions {
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-rows: 1fr 1fr 1fr;
+          grid-row-gap: 1vh;
+          .delete { grid-area: 2 / 1 }
+          .cancel { grid-area: 2 / 2 }
+          .save { grid-area: 2 / 3  }
+        }
       }
     }
   }

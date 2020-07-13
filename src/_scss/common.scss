@@ -47,6 +47,7 @@ body {
     &1 { font-size: 1.1vw!important; font-weight: 700; }
     &0 { font-size: 1.6vw!important; font-weight: 700; }
   }
+  .my-btn { @extend .pmd; }
 }
 
 .screen-vertical {
@@ -63,6 +64,7 @@ body {
     &1 { font-size: 2.4vh!important; font-weight: 700; }
     &0 { font-size: 3vh!important; font-weight: 700; }
   }
+  .my-btn { @extend .pxs; }
 }
 
 .layout-sc {
@@ -92,7 +94,7 @@ body {
     }
   }
   .my-btn {
-    @extend .h-100, .pmd, .px-1;
+    @extend .h-100, .px-1;
     display: flex;
     background: $purple-blue;
     border: none;

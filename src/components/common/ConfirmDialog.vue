@@ -48,6 +48,7 @@ export default {
       right: 0;
       bottom: 0;
       background: rgba(0, 0, 0, 0.3);
+      z-index: 100;
     }
     &__inner {
       width: 20vw;
@@ -62,6 +63,15 @@ export default {
         grid-template-columns: 1fr 1fr;
         justify-self: center;
         align-self: center;
+      }
+    }
+  }
+
+  .screen-vertical {
+    .confirm-dialog {
+      &__inner {
+        width: 80vw;
+        height: 20vh;
       }
     }
   }

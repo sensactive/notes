@@ -1,13 +1,17 @@
 <template lang="pug">
-  .note-list-sc.m-3.p-2
+  .note-list-sc.p-2
     .note-list.py-2(v-if="notes.length")
-      .note-list__item.mx-3(v-for="(note, index) in notes" :key="index")
+      .note-list__item.py-1.mx-3(v-for="(note, index) in notes" :key="index")
         .note-list__item-title.h0.uc
-          span {{ note.name }}
-          .my-btn(@click="openEdit($event, index)") edit
-          confirm-dialog(@click="deleteItem($event, index)")
+          span.text {{ note.name }}
+          .edit.my-btn(
+            @click="openEdit($event, index)"
+          )
+            span(:class="getScreenOrientation === 3 ? 'pxs' : ''") edit
+          confirm-dialog.delete(@click="deleteItem($event, index)")
             template(v-slot:activator)
-              .my-btn.bg-red delete
+              .my-btn.bg-red
+                span(:class="getScreenOrientation === 3 ? 'pxs' : ''") delete
         .note-list__item-todos
           li.note-todo.ml-5(v-for="(todo, index) in note.todoList.slice(0, 3)")
            | {{ todo.text }}
@@ -19,7 +23,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue';
 
 export default {
@@ -29,6 +33,7 @@ export default {
     ...mapState({
       notes: (state) => state.notes.noteList,
     }),
+    ...mapGetters(['getScreenOrientation']),
   },
   data: () => ({
     showEdit: false,
@@ -46,6 +51,7 @@ export default {
 </script>
 
 <style lang="scss">
+
   .note-list-sc {
     display: grid;
     grid-template-rows: 1fr 10vh;
@@ -72,6 +78,26 @@ export default {
           span {
             margin-top: auto;
             margin-bottom: auto;
+          }
+        }
+      }
+    }
+  }
+  .screen-vertical {
+    .note-list-sc {
+      border-radius: unset;
+      box-shadow: inset 0 0 15px rgba(2, 2, 2, 0.5);
+      background: none;
+      .note-list {
+        max-height: 70vh;
+        &__item {
+          &-title {
+            grid-template-columns: 1fr 17vw;
+            grid-template-rows: 1fr 1fr;
+            grid-row-gap: 1vh;
+            .text {
+              grid-area: 1 / 1 / 3 / 2;
+            }
           }
         }
       }
